@@ -1,0 +1,80 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "id": "util_nyc_w1", "utility_type": "water_main", "capacity": "high", "age_years": 35, "condition": "good", "diameter_in": 24 },
+      "geometry": { "type": "LineString", "coordinates": [[-74.015, 40.705], [-74.005, 40.705], [-73.998, 40.710]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_nyc_w2", "utility_type": "water_main", "capacity": "medium", "age_years": 55, "condition": "fair", "diameter_in": 16 },
+      "geometry": { "type": "LineString", "coordinates": [[-73.995, 40.745], [-73.988, 40.750], [-73.980, 40.755]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_nyc_s1", "utility_type": "sewer", "capacity": "high", "age_years": 40, "condition": "good", "diameter_in": 36 },
+      "geometry": { "type": "LineString", "coordinates": [[-74.012, 40.708], [-74.002, 40.708], [-73.998, 40.712]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_nyc_s2", "utility_type": "sewer", "capacity": "low", "age_years": 80, "condition": "poor", "diameter_in": 12 },
+      "geometry": { "type": "LineString", "coordinates": [[-74.000, 40.720], [-73.995, 40.725], [-73.992, 40.730]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_nyc_e1", "utility_type": "electrical", "capacity": "high", "age_years": 20, "condition": "good" },
+      "geometry": { "type": "Point", "coordinates": [-74.005, 40.710] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_nyc_e2", "utility_type": "electrical", "capacity": "medium", "age_years": 45, "condition": "fair" },
+      "geometry": { "type": "Point", "coordinates": [-73.990, 40.748] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_nyc_g1", "utility_type": "gas", "capacity": "medium", "age_years": 50, "condition": "fair", "diameter_in": 8 },
+      "geometry": { "type": "LineString", "coordinates": [[-74.008, 40.707], [-74.000, 40.712], [-73.995, 40.718]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_la_w1", "utility_type": "water_main", "capacity": "high", "age_years": 25, "condition": "good", "diameter_in": 30 },
+      "geometry": { "type": "LineString", "coordinates": [[-118.260, 34.048], [-118.252, 34.052], [-118.245, 34.055]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_la_s1", "utility_type": "sewer", "capacity": "medium", "age_years": 60, "condition": "fair", "diameter_in": 24 },
+      "geometry": { "type": "LineString", "coordinates": [[-118.258, 34.045], [-118.250, 34.050], [-118.242, 34.053]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_la_e1", "utility_type": "electrical", "capacity": "high", "age_years": 15, "condition": "good" },
+      "geometry": { "type": "Point", "coordinates": [-118.252, 34.050] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_la_s2", "utility_type": "sewer", "capacity": "low", "age_years": 90, "condition": "poor", "diameter_in": 10 },
+      "geometry": { "type": "LineString", "coordinates": [[-118.238, 34.038], [-118.232, 34.040], [-118.228, 34.043]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_chi_w1", "utility_type": "water_main", "capacity": "high", "age_years": 30, "condition": "good", "diameter_in": 28 },
+      "geometry": { "type": "LineString", "coordinates": [[-87.638, 41.878], [-87.630, 41.882], [-87.625, 41.886]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_chi_s1", "utility_type": "sewer", "capacity": "high", "age_years": 45, "condition": "good", "diameter_in": 30 },
+      "geometry": { "type": "LineString", "coordinates": [[-87.636, 41.876], [-87.628, 41.880], [-87.624, 41.885]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_chi_e1", "utility_type": "electrical", "capacity": "high", "age_years": 10, "condition": "good" },
+      "geometry": { "type": "Point", "coordinates": [-87.630, 41.882] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "util_chi_g1", "utility_type": "gas", "capacity": "medium", "age_years": 55, "condition": "fair", "diameter_in": 10 },
+      "geometry": { "type": "LineString", "coordinates": [[-87.640, 41.890], [-87.635, 41.892], [-87.630, 41.895]] }
+    }
+  ]
+}

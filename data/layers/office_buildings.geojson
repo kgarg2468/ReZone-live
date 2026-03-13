@@ -1,0 +1,585 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "bldg_001",
+      "properties": {
+        "id": "bldg_001",
+        "name": "One Liberty Plaza",
+        "address": "165 Broadway, New York, NY",
+        "city": "New York",
+        "sqft": 240000,
+        "floors": 12,
+        "year_built": 1972,
+        "vacancy_pct": 68,
+        "current_use": "Office",
+        "structural_type": "steel-frame",
+        "parking_spaces": 0,
+        "has_elevator": true,
+        "ceiling_height_ft": 12
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.0098, 40.7095],
+          [-74.0092, 40.7095],
+          [-74.0092, 40.7100],
+          [-74.0098, 40.7100],
+          [-74.0098, 40.7095]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_002",
+      "properties": {
+        "id": "bldg_002",
+        "name": "Midtown Tower",
+        "address": "501 5th Ave, New York, NY",
+        "city": "New York",
+        "sqft": 185000,
+        "floors": 18,
+        "year_built": 1965,
+        "vacancy_pct": 42,
+        "current_use": "Office",
+        "structural_type": "steel-frame",
+        "parking_spaces": 50,
+        "has_elevator": true,
+        "ceiling_height_ft": 11
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-73.9800, 40.7535],
+          [-73.9794, 40.7535],
+          [-73.9794, 40.7540],
+          [-73.9800, 40.7540],
+          [-73.9800, 40.7535]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_003",
+      "properties": {
+        "id": "bldg_003",
+        "name": "FiDi Commerce Center",
+        "address": "80 Pine St, New York, NY",
+        "city": "New York",
+        "sqft": 320000,
+        "floors": 24,
+        "year_built": 1960,
+        "vacancy_pct": 55,
+        "current_use": "Office",
+        "structural_type": "concrete",
+        "parking_spaces": 120,
+        "has_elevator": true,
+        "ceiling_height_ft": 10
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.0055, 40.7065],
+          [-74.0048, 40.7065],
+          [-74.0048, 40.7071],
+          [-74.0055, 40.7071],
+          [-74.0055, 40.7065]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_004",
+      "properties": {
+        "id": "bldg_004",
+        "name": "Chelsea Office Park",
+        "address": "225 W 25th St, New York, NY",
+        "city": "New York",
+        "sqft": 95000,
+        "floors": 6,
+        "year_built": 1985,
+        "vacancy_pct": 78,
+        "current_use": "Office",
+        "structural_type": "steel-frame",
+        "parking_spaces": 30,
+        "has_elevator": true,
+        "ceiling_height_ft": 13
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-73.9960, 40.7460],
+          [-73.9954, 40.7460],
+          [-73.9954, 40.7465],
+          [-73.9960, 40.7465],
+          [-73.9960, 40.7460]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_005",
+      "properties": {
+        "id": "bldg_005",
+        "name": "Herald Square Office",
+        "address": "1333 Broadway, New York, NY",
+        "city": "New York",
+        "sqft": 150000,
+        "floors": 14,
+        "year_built": 1978,
+        "vacancy_pct": 61,
+        "current_use": "Office",
+        "structural_type": "concrete",
+        "parking_spaces": 0,
+        "has_elevator": true,
+        "ceiling_height_ft": 11
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-73.9878, 40.7500],
+          [-73.9872, 40.7500],
+          [-73.9872, 40.7505],
+          [-73.9878, 40.7505],
+          [-73.9878, 40.7500]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_006",
+      "properties": {
+        "id": "bldg_006",
+        "name": "SoHo Flex Building",
+        "address": "568 Broadway, New York, NY",
+        "city": "New York",
+        "sqft": 72000,
+        "floors": 8,
+        "year_built": 1910,
+        "vacancy_pct": 85,
+        "current_use": "Office/Retail",
+        "structural_type": "masonry",
+        "parking_spaces": 0,
+        "has_elevator": true,
+        "ceiling_height_ft": 14
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-73.9975, 40.7237],
+          [-73.9969, 40.7237],
+          [-73.9969, 40.7242],
+          [-73.9975, 40.7242],
+          [-73.9975, 40.7237]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_007",
+      "properties": {
+        "id": "bldg_007",
+        "name": "Bunker Hill Tower",
+        "address": "333 S Hope St, Los Angeles, CA",
+        "city": "Los Angeles",
+        "sqft": 280000,
+        "floors": 20,
+        "year_built": 1982,
+        "vacancy_pct": 72,
+        "current_use": "Office",
+        "structural_type": "steel-frame",
+        "parking_spaces": 400,
+        "has_elevator": true,
+        "ceiling_height_ft": 11
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-118.2530, 34.0530],
+          [-118.2522, 34.0530],
+          [-118.2522, 34.0536],
+          [-118.2530, 34.0536],
+          [-118.2530, 34.0530]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_008",
+      "properties": {
+        "id": "bldg_008",
+        "name": "Figueroa Center",
+        "address": "800 S Figueroa St, Los Angeles, CA",
+        "city": "Los Angeles",
+        "sqft": 195000,
+        "floors": 16,
+        "year_built": 1990,
+        "vacancy_pct": 58,
+        "current_use": "Office",
+        "structural_type": "concrete",
+        "parking_spaces": 300,
+        "has_elevator": true,
+        "ceiling_height_ft": 10
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-118.2610, 34.0460],
+          [-118.2602, 34.0460],
+          [-118.2602, 34.0466],
+          [-118.2610, 34.0466],
+          [-118.2610, 34.0460]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_009",
+      "properties": {
+        "id": "bldg_009",
+        "name": "Spring Street Lofts Office",
+        "address": "450 S Spring St, Los Angeles, CA",
+        "city": "Los Angeles",
+        "sqft": 110000,
+        "floors": 10,
+        "year_built": 1925,
+        "vacancy_pct": 90,
+        "current_use": "Office",
+        "structural_type": "masonry",
+        "parking_spaces": 50,
+        "has_elevator": true,
+        "ceiling_height_ft": 14
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-118.2498, 34.0490],
+          [-118.2491, 34.0490],
+          [-118.2491, 34.0496],
+          [-118.2498, 34.0496],
+          [-118.2498, 34.0490]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_010",
+      "properties": {
+        "id": "bldg_010",
+        "name": "Olive Street Plaza",
+        "address": "600 S Olive St, Los Angeles, CA",
+        "city": "Los Angeles",
+        "sqft": 160000,
+        "floors": 12,
+        "year_built": 1975,
+        "vacancy_pct": 65,
+        "current_use": "Office",
+        "structural_type": "steel-frame",
+        "parking_spaces": 250,
+        "has_elevator": true,
+        "ceiling_height_ft": 11
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-118.2555, 34.0480],
+          [-118.2547, 34.0480],
+          [-118.2547, 34.0486],
+          [-118.2555, 34.0486],
+          [-118.2555, 34.0480]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_011",
+      "properties": {
+        "id": "bldg_011",
+        "name": "Grand Ave Corporate",
+        "address": "200 N Grand Ave, Los Angeles, CA",
+        "city": "Los Angeles",
+        "sqft": 350000,
+        "floors": 28,
+        "year_built": 1988,
+        "vacancy_pct": 45,
+        "current_use": "Office",
+        "structural_type": "steel-frame",
+        "parking_spaces": 500,
+        "has_elevator": true,
+        "ceiling_height_ft": 10
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-118.2490, 34.0570],
+          [-118.2482, 34.0570],
+          [-118.2482, 34.0577],
+          [-118.2490, 34.0577],
+          [-118.2490, 34.0570]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_012",
+      "properties": {
+        "id": "bldg_012",
+        "name": "Loop Exchange Building",
+        "address": "105 W Adams St, Chicago, IL",
+        "city": "Chicago",
+        "sqft": 210000,
+        "floors": 15,
+        "year_built": 1958,
+        "vacancy_pct": 74,
+        "current_use": "Office",
+        "structural_type": "steel-frame",
+        "parking_spaces": 100,
+        "has_elevator": true,
+        "ceiling_height_ft": 12
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-87.6320, 41.8790],
+          [-87.6312, 41.8790],
+          [-87.6312, 41.8796],
+          [-87.6320, 41.8796],
+          [-87.6320, 41.8790]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_013",
+      "properties": {
+        "id": "bldg_013",
+        "name": "Wacker Drive Tower",
+        "address": "300 S Wacker Dr, Chicago, IL",
+        "city": "Chicago",
+        "sqft": 420000,
+        "floors": 30,
+        "year_built": 1970,
+        "vacancy_pct": 52,
+        "current_use": "Office",
+        "structural_type": "concrete",
+        "parking_spaces": 200,
+        "has_elevator": true,
+        "ceiling_height_ft": 10
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-87.6370, 41.8780],
+          [-87.6362, 41.8780],
+          [-87.6362, 41.8787],
+          [-87.6370, 41.8787],
+          [-87.6370, 41.8780]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_014",
+      "properties": {
+        "id": "bldg_014",
+        "name": "State Street Office Center",
+        "address": "20 N State St, Chicago, IL",
+        "city": "Chicago",
+        "sqft": 175000,
+        "floors": 14,
+        "year_built": 1980,
+        "vacancy_pct": 67,
+        "current_use": "Office",
+        "structural_type": "steel-frame",
+        "parking_spaces": 80,
+        "has_elevator": true,
+        "ceiling_height_ft": 11
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-87.6278, 41.8825],
+          [-87.6270, 41.8825],
+          [-87.6270, 41.8831],
+          [-87.6278, 41.8831],
+          [-87.6278, 41.8825]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_015",
+      "properties": {
+        "id": "bldg_015",
+        "name": "LaSalle Corridor Building",
+        "address": "135 S LaSalle St, Chicago, IL",
+        "city": "Chicago",
+        "sqft": 260000,
+        "floors": 19,
+        "year_built": 1955,
+        "vacancy_pct": 80,
+        "current_use": "Office",
+        "structural_type": "masonry",
+        "parking_spaces": 60,
+        "has_elevator": true,
+        "ceiling_height_ft": 13
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-87.6325, 41.8810],
+          [-87.6317, 41.8810],
+          [-87.6317, 41.8817],
+          [-87.6325, 41.8817],
+          [-87.6325, 41.8810]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_016",
+      "properties": {
+        "id": "bldg_016",
+        "name": "Michigan Ave Commercial",
+        "address": "333 N Michigan Ave, Chicago, IL",
+        "city": "Chicago",
+        "sqft": 130000,
+        "floors": 10,
+        "year_built": 1992,
+        "vacancy_pct": 38,
+        "current_use": "Office",
+        "structural_type": "concrete",
+        "parking_spaces": 150,
+        "has_elevator": true,
+        "ceiling_height_ft": 10
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-87.6245, 41.8870],
+          [-87.6238, 41.8870],
+          [-87.6238, 41.8876],
+          [-87.6245, 41.8876],
+          [-87.6245, 41.8870]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_017",
+      "properties": {
+        "id": "bldg_017",
+        "name": "Tribeca Warehouse",
+        "address": "40 Harrison St, New York, NY",
+        "city": "New York",
+        "sqft": 88000,
+        "floors": 5,
+        "year_built": 1920,
+        "vacancy_pct": 92,
+        "current_use": "Warehouse/Office",
+        "structural_type": "masonry",
+        "parking_spaces": 0,
+        "has_elevator": false,
+        "ceiling_height_ft": 16
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.0090, 40.7170],
+          [-74.0083, 40.7170],
+          [-74.0083, 40.7176],
+          [-74.0090, 40.7176],
+          [-74.0090, 40.7170]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_018",
+      "properties": {
+        "id": "bldg_018",
+        "name": "Arts District Flex",
+        "address": "1000 Mateo St, Los Angeles, CA",
+        "city": "Los Angeles",
+        "sqft": 65000,
+        "floors": 4,
+        "year_built": 1940,
+        "vacancy_pct": 88,
+        "current_use": "Industrial/Office",
+        "structural_type": "concrete",
+        "parking_spaces": 80,
+        "has_elevator": false,
+        "ceiling_height_ft": 18
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-118.2330, 34.0395],
+          [-118.2322, 34.0395],
+          [-118.2322, 34.0402],
+          [-118.2330, 34.0402],
+          [-118.2330, 34.0395]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_019",
+      "properties": {
+        "id": "bldg_019",
+        "name": "River North Loft Office",
+        "address": "350 W Hubbard St, Chicago, IL",
+        "city": "Chicago",
+        "sqft": 98000,
+        "floors": 7,
+        "year_built": 1932,
+        "vacancy_pct": 76,
+        "current_use": "Office",
+        "structural_type": "masonry",
+        "parking_spaces": 40,
+        "has_elevator": true,
+        "ceiling_height_ft": 14
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-87.6380, 41.8900],
+          [-87.6372, 41.8900],
+          [-87.6372, 41.8906],
+          [-87.6380, 41.8906],
+          [-87.6380, 41.8900]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bldg_020",
+      "properties": {
+        "id": "bldg_020",
+        "name": "Union Square Office",
+        "address": "33 E 17th St, New York, NY",
+        "city": "New York",
+        "sqft": 115000,
+        "floors": 9,
+        "year_built": 1948,
+        "vacancy_pct": 71,
+        "current_use": "Office",
+        "structural_type": "steel-frame",
+        "parking_spaces": 0,
+        "has_elevator": true,
+        "ceiling_height_ft": 12
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-73.9900, 40.7370],
+          [-73.9894, 40.7370],
+          [-73.9894, 40.7375],
+          [-73.9900, 40.7375],
+          [-73.9900, 40.7370]
+        ]]
+      }
+    }
+  ]
+}

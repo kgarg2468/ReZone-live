@@ -1,0 +1,105 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_nyc_001", "transit_type": "subway", "line_name": "1/2/3", "station_name": "Wall St", "daily_ridership": 32000 },
+      "geometry": { "type": "Point", "coordinates": [-74.0090, 40.7070] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_nyc_002", "transit_type": "subway", "line_name": "4/5/6", "station_name": "Fulton St", "daily_ridership": 48000 },
+      "geometry": { "type": "Point", "coordinates": [-74.0065, 40.7095] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_nyc_003", "transit_type": "subway", "line_name": "N/Q/R/W", "station_name": "34th St–Herald Sq", "daily_ridership": 85000 },
+      "geometry": { "type": "Point", "coordinates": [-73.9878, 40.7496] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_nyc_004", "transit_type": "subway", "line_name": "7", "station_name": "5th Ave/Bryant Park", "daily_ridership": 62000 },
+      "geometry": { "type": "Point", "coordinates": [-73.9815, 40.7540] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_nyc_005", "transit_type": "subway", "line_name": "C/E", "station_name": "23rd St", "daily_ridership": 22000 },
+      "geometry": { "type": "Point", "coordinates": [-73.9980, 40.7460] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_nyc_006", "transit_type": "subway", "line_name": "6", "station_name": "Spring St", "daily_ridership": 18000 },
+      "geometry": { "type": "Point", "coordinates": [-73.9970, 40.7220] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_nyc_007", "transit_type": "subway", "line_name": "1", "station_name": "Franklin St", "daily_ridership": 15000 },
+      "geometry": { "type": "Point", "coordinates": [-74.0065, 40.7190] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_nyc_008", "transit_type": "subway", "line_name": "L/N/Q/R/4/5/6", "station_name": "14th St–Union Sq", "daily_ridership": 95000 },
+      "geometry": { "type": "Point", "coordinates": [-73.9905, 40.7360] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_nyc_009", "transit_type": "bus", "line_name": "M15", "station_name": "Broadway/Pine", "daily_ridership": 5000 },
+      "geometry": { "type": "Point", "coordinates": [-74.007, 40.708] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_la_001", "transit_type": "metro", "line_name": "Red/Purple", "station_name": "Pershing Square", "daily_ridership": 12000 },
+      "geometry": { "type": "Point", "coordinates": [-118.2515, 34.0495] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_la_002", "transit_type": "metro", "line_name": "Red/Purple", "station_name": "Civic Center", "daily_ridership": 8500 },
+      "geometry": { "type": "Point", "coordinates": [-118.2460, 34.0560] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_la_003", "transit_type": "metro", "line_name": "Blue/Expo", "station_name": "7th St/Metro Center", "daily_ridership": 22000 },
+      "geometry": { "type": "Point", "coordinates": [-118.2585, 34.0485] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_la_004", "transit_type": "bus", "line_name": "DASH A", "station_name": "Spring/5th", "daily_ridership": 3500 },
+      "geometry": { "type": "Point", "coordinates": [-118.249, 34.048] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_la_005", "transit_type": "bus", "line_name": "Route 60", "station_name": "Mateo/7th", "daily_ridership": 2000 },
+      "geometry": { "type": "Point", "coordinates": [-118.233, 34.040] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_chi_001", "transit_type": "L-train", "line_name": "Brown/Orange/Pink", "station_name": "Adams/Wabash", "daily_ridership": 16000 },
+      "geometry": { "type": "Point", "coordinates": [-87.6260, 41.8795] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_chi_002", "transit_type": "L-train", "line_name": "Blue/Red", "station_name": "Jackson", "daily_ridership": 28000 },
+      "geometry": { "type": "Point", "coordinates": [-87.6295, 41.8780] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_chi_003", "transit_type": "L-train", "line_name": "Red", "station_name": "Grand", "daily_ridership": 14000 },
+      "geometry": { "type": "Point", "coordinates": [-87.6285, 41.8915] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_chi_004", "transit_type": "L-train", "line_name": "Brown/Purple", "station_name": "Merchandise Mart", "daily_ridership": 18500 },
+      "geometry": { "type": "Point", "coordinates": [-87.6335, 41.8885] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_chi_005", "transit_type": "bus", "line_name": "CTA 151", "station_name": "Michigan/Wacker", "daily_ridership": 4200 },
+      "geometry": { "type": "Point", "coordinates": [-87.624, 41.887] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "tr_chi_006", "transit_type": "commuter_rail", "line_name": "Metra", "station_name": "Union Station", "daily_ridership": 45000 },
+      "geometry": { "type": "Point", "coordinates": [-87.6400, 41.8785] }
+    }
+  ]
+}

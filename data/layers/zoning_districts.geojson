@@ -1,0 +1,195 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "zone_nyc_001",
+        "zone_type": "mixed-use",
+        "allows_residential": true,
+        "max_density": 12.0,
+        "max_height_ft": 250,
+        "name": "Lower Manhattan Mixed-Use",
+        "jurisdiction": "NYC DCP"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.015, 40.700], [-73.998, 40.700], [-73.998, 40.715],
+          [-74.015, 40.715], [-74.015, 40.700]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "zone_nyc_002",
+        "zone_type": "commercial",
+        "allows_residential": false,
+        "max_density": 15.0,
+        "max_height_ft": 400,
+        "name": "Midtown Commercial Core",
+        "jurisdiction": "NYC DCP"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-73.995, 40.748], [-73.975, 40.748], [-73.975, 40.760],
+          [-73.995, 40.760], [-73.995, 40.748]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "zone_nyc_003",
+        "zone_type": "residential",
+        "allows_residential": true,
+        "max_density": 6.5,
+        "max_height_ft": 120,
+        "name": "Chelsea Residential",
+        "jurisdiction": "NYC DCP"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.002, 40.742], [-73.990, 40.742], [-73.990, 40.750],
+          [-74.002, 40.750], [-74.002, 40.742]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "zone_nyc_004",
+        "zone_type": "mixed-use",
+        "allows_residential": true,
+        "max_density": 10.0,
+        "max_height_ft": 200,
+        "name": "SoHo/Tribeca Mixed-Use",
+        "jurisdiction": "NYC DCP"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.012, 40.715], [-73.993, 40.715], [-73.993, 40.730],
+          [-74.012, 40.730], [-74.012, 40.715]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "zone_nyc_005",
+        "zone_type": "mixed-use",
+        "allows_residential": true,
+        "max_density": 8.0,
+        "max_height_ft": 180,
+        "name": "Union Square Mixed-Use",
+        "jurisdiction": "NYC DCP"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-73.995, 40.732], [-73.985, 40.732], [-73.985, 40.742],
+          [-73.995, 40.742], [-73.995, 40.732]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "zone_la_001",
+        "zone_type": "commercial",
+        "allows_residential": false,
+        "max_density": 13.0,
+        "max_height_ft": 600,
+        "name": "DTLA Financial District",
+        "jurisdiction": "LA City Planning"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-118.260, 34.045], [-118.245, 34.045], [-118.245, 34.060],
+          [-118.260, 34.060], [-118.260, 34.045]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "zone_la_002",
+        "zone_type": "mixed-use",
+        "allows_residential": true,
+        "max_density": 8.0,
+        "max_height_ft": 300,
+        "name": "DTLA South Mixed-Use",
+        "jurisdiction": "LA City Planning"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-118.265, 34.038], [-118.248, 34.038], [-118.248, 34.050],
+          [-118.265, 34.050], [-118.265, 34.038]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "zone_la_003",
+        "zone_type": "industrial",
+        "allows_residential": false,
+        "max_density": 3.0,
+        "max_height_ft": 75,
+        "name": "Arts District Industrial",
+        "jurisdiction": "LA City Planning"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-118.240, 34.035], [-118.228, 34.035], [-118.228, 34.045],
+          [-118.240, 34.045], [-118.240, 34.035]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "zone_chi_001",
+        "zone_type": "commercial",
+        "allows_residential": false,
+        "max_density": 16.0,
+        "max_height_ft": 500,
+        "name": "Chicago Loop Core",
+        "jurisdiction": "Chicago DPD"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-87.640, 41.875], [-87.622, 41.875], [-87.622, 41.888],
+          [-87.640, 41.888], [-87.640, 41.875]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "zone_chi_002",
+        "zone_type": "mixed-use",
+        "allows_residential": true,
+        "max_density": 10.0,
+        "max_height_ft": 350,
+        "name": "River North Mixed-Use",
+        "jurisdiction": "Chicago DPD"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-87.645, 41.888], [-87.628, 41.888], [-87.628, 41.898],
+          [-87.645, 41.898], [-87.645, 41.888]
+        ]]
+      }
+    }
+  ]
+}
