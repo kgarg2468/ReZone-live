@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Map from "@/components/Map";
 import TopBar from "@/components/TopBar";
 import LayerPanel, { type LayerKey } from "@/components/LayerPanel";
@@ -40,6 +40,7 @@ export default function Home() {
   const [latestAnalysis, setLatestAnalysis] = useState<LatestAnalysisSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
+  const analyzingRef = useRef(false);
   const [mapStyle, setMapStyle] = useState<"satellite" | "dark">("satellite");
   const [cityFilter, setCityFilter] = useState("All");
   const [error, setError] = useState<string | null>(null);
@@ -112,13 +113,14 @@ export default function Home() {
     }
   };
 
-  const handleAnalyze = async () => {
-    if (!selectedBuildingId || analyzing) return;
+  const runAnalysis = async (buildingId: string) => {
+    if (analyzingRef.current) return;
 
     try {
+      analyzingRef.current = true;
       setAnalyzing(true);
       setError(null);
-      const response = await checkFeasibility(selectedBuildingId);
+      const response = await checkFeasibility(buildingId);
       setResult(response);
       setLatestAnalysis({
         buildingName: response.building_name,
@@ -132,7 +134,17 @@ export default function Home() {
       setError(message);
     } finally {
       setAnalyzing(false);
+      analyzingRef.current = false;
     }
+  };
+
+  const handleAnalyze = async () => {
+    if (!selectedBuildingId) return;
+    await runAnalysis(selectedBuildingId);
+  };
+
+  const handleAnalyzeBuilding = async (buildingId: string) => {
+    await runAnalysis(buildingId);
   };
 
   const handleRemove = () => {
@@ -169,6 +181,7 @@ export default function Home() {
         buildings={buildings}
         selectedBuildingId={selectedBuildingId}
         onSelectBuilding={handleSelectBuilding}
+        onAnalyzeBuilding={handleAnalyzeBuilding}
         onViewportChange={setViewportBbox}
       />
 

@@ -14,7 +14,7 @@ interface MapProps {
   buildings: BuildingSummary[];
   selectedBuildingId: string | null;
   onSelectBuilding: (buildingId: string) => void;
-  onAnalyzeBuilding?: (buildingId: string) => void;
+  onAnalyzeBuilding: (buildingId: string) => void;
   onViewportChange?: (bbox: BBox) => void;
 }
 
@@ -342,7 +342,7 @@ export default function Map({
         if (!buildingId || typeof buildingId !== "string") return;
 
         onSelectBuildingRef.current(buildingId);
-        onAnalyzeBuildingRef.current?.(buildingId);
+        onAnalyzeBuildingRef.current(buildingId);
       });
 
       map.on("mouseenter", "office-buildings-fill", () => {
