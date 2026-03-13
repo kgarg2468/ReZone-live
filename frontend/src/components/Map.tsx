@@ -14,6 +14,7 @@ interface MapProps {
   buildings: BuildingSummary[];
   selectedBuildingId: string | null;
   onSelectBuilding: (buildingId: string) => void;
+  onAnalyzeBuilding?: (buildingId: string) => void;
   onViewportChange?: (bbox: BBox) => void;
 }
 
@@ -55,11 +56,13 @@ export default function Map({
   buildings,
   selectedBuildingId,
   onSelectBuilding,
+  onAnalyzeBuilding,
   onViewportChange,
 }: MapProps) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const onSelectBuildingRef = useRef(onSelectBuilding);
+  const onAnalyzeBuildingRef = useRef(onAnalyzeBuilding);
   const onViewportChangeRef = useRef(onViewportChange);
   const syncMapLayersRef = useRef<(map: mapboxgl.Map) => void>(() => undefined);
   const syncLayerVisibilityRef = useRef<(map: mapboxgl.Map) => void>(() => undefined);
@@ -70,6 +73,10 @@ export default function Map({
   useEffect(() => {
     onSelectBuildingRef.current = onSelectBuilding;
   }, [onSelectBuilding]);
+
+  useEffect(() => {
+    onAnalyzeBuildingRef.current = onAnalyzeBuilding;
+  }, [onAnalyzeBuilding]);
 
   useEffect(() => {
     onViewportChangeRef.current = onViewportChange;
@@ -327,6 +334,15 @@ export default function Map({
               + `Vacancy: ${vacancy ?? "-"}%`
           )
           .addTo(map);
+      });
+
+      map.on("dblclick", "office-buildings-fill", (event) => {
+        const feature = event.features?.[0];
+        const buildingId = feature?.properties?.id;
+        if (!buildingId || typeof buildingId !== "string") return;
+
+        onSelectBuildingRef.current(buildingId);
+        onAnalyzeBuildingRef.current?.(buildingId);
       });
 
       map.on("mouseenter", "office-buildings-fill", () => {
