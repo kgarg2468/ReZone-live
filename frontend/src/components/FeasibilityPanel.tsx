@@ -92,11 +92,12 @@ export default function FeasibilityPanel({
                 ? "Running feasibility engine..."
                 : selectedBuildingName
                   ? `Ready to analyze ${selectedBuildingName}`
-                  : "Select a building to start"}
+                  : "Double-click a map building to start"}
             </p>
             <p className="empty-panel-copy">
-              ReZone scores zoning, utility access, transit, and structural complexity, then recommends a
-              conversion strategy with cost and timeline estimates.
+              Double-click any office building on the map to run analysis instantly. ReZone scores zoning,
+              utility access, transit, and structural complexity, then recommends a conversion strategy with
+              cost and timeline estimates.
             </p>
           </div>
         </div>
