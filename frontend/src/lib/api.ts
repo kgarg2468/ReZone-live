@@ -86,6 +86,7 @@ export interface FeasibilityResponse {
   score: number;
   tier: string;
   tier_description: string;
+  conflicts: string[];
   zoning: ZoningAssessment;
   utilities: UtilityAssessment[];
   transit: TransitAssessment;

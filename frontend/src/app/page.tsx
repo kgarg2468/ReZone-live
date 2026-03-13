@@ -1,66 +1,169 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import Map from "@/components/Map";
+import TopBar from "@/components/TopBar";
+import LayerPanel, { type LayerKey } from "@/components/LayerPanel";
+import ProjectPanel from "@/components/ProjectPanel";
+import FeasibilityPanel from "@/components/FeasibilityPanel";
+import {
+  checkFeasibility,
+  fetchBuildings,
+  fetchLayers,
+  type BuildingSummary,
+  type FeasibilityResponse,
+  type LayerInfo,
+} from "@/lib/api";
+
+const defaultVisibility: Record<LayerKey, boolean> = {
+  office_buildings: true,
+  zoning_districts: true,
+  utility_infrastructure: true,
+  transit_stops: true,
+};
 
 export default function Home() {
+  const [layers, setLayers] = useState<Partial<Record<LayerKey, LayerInfo>>>({});
+  const [buildings, setBuildings] = useState<BuildingSummary[]>([]);
+  const [visibleLayers, setVisibleLayers] = useState<Record<LayerKey, boolean>>(defaultVisibility);
+  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
+  const [result, setResult] = useState<FeasibilityResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [mapStyle, setMapStyle] = useState<"satellite" | "dark">("satellite");
+  const [cityFilter, setCityFilter] = useState("All");
+  const [error, setError] = useState<string | null>(null);
+
+  const selectedBuilding = useMemo(
+    () => buildings.find((building) => building.id === selectedBuildingId) ?? null,
+    [buildings, selectedBuildingId]
+  );
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadInitialData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const [layerPayload, buildingPayload] = await Promise.all([fetchLayers(), fetchBuildings()]);
+
+        if (!mounted) return;
+
+        setLayers(layerPayload as Partial<Record<LayerKey, LayerInfo>>);
+        setBuildings(buildingPayload);
+      } catch (loadError) {
+        if (!mounted) return;
+        const message = loadError instanceof Error ? loadError.message : "Failed to load HomeX data";
+        setError(message);
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadInitialData();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const handleToggleLayer = (layer: LayerKey) => {
+    setVisibleLayers((current) => ({ ...current, [layer]: !current[layer] }));
+  };
+
+  const handleSelectBuilding = (buildingId: string) => {
+    setSelectedBuildingId(buildingId);
+    if (result?.building_id !== buildingId) {
+      setResult(null);
+    }
+  };
+
+  const handleAnalyze = async () => {
+    if (!selectedBuildingId || analyzing) return;
+
+    try {
+      setAnalyzing(true);
+      setError(null);
+      const response = await checkFeasibility(selectedBuildingId);
+      setResult(response);
+    } catch (analysisError) {
+      const message = analysisError instanceof Error ? analysisError.message : "Analysis failed";
+      setError(message);
+    } finally {
+      setAnalyzing(false);
+    }
+  };
+
+  const handleRemove = () => {
+    if (selectedBuildingId && result?.building_id === selectedBuildingId) {
+      setResult(null);
+    }
+    setSelectedBuildingId(null);
+  };
+
+  const handleNewAnalysis = () => {
+    setSelectedBuildingId(null);
+    setResult(null);
+    setError(null);
+    setVisibleLayers(defaultVisibility);
+    setCityFilter("All");
+  };
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main>
+      <TopBar
+        mapStyle={mapStyle}
+        onToggleMapStyle={() => setMapStyle((style) => (style === "satellite" ? "dark" : "satellite"))}
+        onNewAnalysis={handleNewAnalysis}
+      />
+
+      <Map
+        key={mapStyle}
+        mapStyle={mapStyle}
+        layers={layers}
+        visibleLayers={visibleLayers}
+        buildings={buildings}
+        selectedBuildingId={selectedBuildingId}
+        onSelectBuilding={handleSelectBuilding}
+      />
+
+      <aside className="panel panel-left panel-left-stack animate-slide-left">
+        <LayerPanel layers={layers} visibleLayers={visibleLayers} onToggleLayer={handleToggleLayer} />
+        <div className="panel-body">
+          <ProjectPanel
+            buildings={buildings}
+            selectedBuildingId={selectedBuildingId}
+            onSelectBuilding={handleSelectBuilding}
+            onAnalyze={handleAnalyze}
+            onRemove={handleRemove}
+            analyzing={analyzing}
+            cityFilter={cityFilter}
+            onCityFilterChange={setCityFilter}
+          />
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </aside>
+
+      <FeasibilityPanel
+        result={result}
+        selectedBuildingName={selectedBuilding?.name ?? null}
+        analyzing={analyzing}
+      />
+
+      {loading ? (
+        <div className="loading-overlay">
+          <div className="loading-spinner" />
+          <div className="loading-text">Loading HomeX spatial layers...</div>
         </div>
-      </main>
-    </div>
+      ) : null}
+
+      {error ? (
+        <div className="error-toast" role="alert">
+          {error}
+        </div>
+      ) : null}
+    </main>
   );
 }

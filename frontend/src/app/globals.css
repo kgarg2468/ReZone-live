@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
 /* ──────────────────────────────────────────────────────────
    HomeX Design System — Premium Dark Theme
    ────────────────────────────────────────────────────────── */
@@ -66,12 +64,16 @@
 
 html, body {
   height: 100%;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  height: 100%;
 }
 
 /* ──────────────────────────────────────────────────────────
@@ -252,6 +254,12 @@ html, body {
   z-index: 2;
 }
 
+.panel-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .panel-title {
   font-size: 14px;
   font-weight: 600;
@@ -262,6 +270,20 @@ html, body {
 
 .panel-body {
   padding: 14px 18px;
+}
+
+.panel-body-transition {
+  max-height: 500px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height var(--transition-slow), opacity var(--transition-fast), padding var(--transition-fast);
+}
+
+.panel-body-hidden {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .panel-close {
@@ -902,4 +924,137 @@ html, body {
   color: var(--accent);
   border-color: var(--accent);
   background: var(--accent-muted);
+}
+
+/* ──────────────────────────────────────────────────────────
+   Additional Layout + States
+   ────────────────────────────────────────────────────────── */
+
+.panel-left-stack {
+  width: 360px;
+}
+
+.empty-panel {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.empty-panel-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.empty-panel-copy {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.conflict-list {
+  list-style: disc;
+  margin-left: 16px;
+}
+
+.conflict-list li {
+  margin-bottom: 6px;
+}
+
+.error-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  background: rgba(239, 68, 68, 0.92);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: var(--shadow-md);
+  z-index: 200;
+  max-width: min(720px, calc(100vw - 30px));
+}
+
+@media (max-width: 1200px) {
+  :root {
+    --panel-width: 320px;
+  }
+
+  .panel-right {
+    width: 340px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .panel {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    max-width: none;
+    max-height: 38vh;
+  }
+
+  .panel-left {
+    top: calc(var(--topbar-height) + 10px);
+  }
+
+  .panel-right {
+    top: auto;
+    bottom: 10px;
+    max-height: 44vh;
+  }
+
+  .topbar {
+    padding: 0 12px;
+  }
+
+  .topbar-title {
+    font-size: 13px;
+  }
+
+  .topbar-subtitle {
+    display: none;
+  }
+
+  .topbar-actions .btn-secondary {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    height: 52px;
+  }
+
+  :root {
+    --topbar-height: 52px;
+  }
+
+  .panel {
+    top: calc(var(--topbar-height) + 8px);
+    max-height: 34vh;
+    border-radius: 12px;
+  }
+
+  .panel-right {
+    bottom: 8px;
+    top: auto;
+    max-height: 42vh;
+  }
+
+  .topbar-logo {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+
+  .btn {
+    font-size: 12px;
+    padding: 7px 12px;
+  }
 }
