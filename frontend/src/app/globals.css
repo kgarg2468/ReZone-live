@@ -264,7 +264,8 @@ main {
 .panel-body-transition {
   max-height: calc(100vh - var(--topbar-height) - 40px);
   opacity: 1;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   transition: max-height var(--transition-slow), opacity var(--transition-fast), padding var(--transition-fast);
 }
 
