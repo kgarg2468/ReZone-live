@@ -2,10 +2,19 @@
 
 import type { FeasibilityResponse } from "@/lib/api";
 
+export interface LatestAnalysisSummary {
+  buildingName: string;
+  address: string;
+  tier: string;
+  score: number;
+  analyzedAt: string;
+}
+
 interface FeasibilityPanelProps {
   result: FeasibilityResponse | null;
   selectedBuildingName: string | null;
   analyzing: boolean;
+  latestAnalysis: LatestAnalysisSummary | null;
 }
 
 function getScoreColor(score: number): string {
@@ -39,10 +48,32 @@ interface FactorItem {
   detail: string;
 }
 
+function LatestAnalysisCard({ latestAnalysis }: { latestAnalysis: LatestAnalysisSummary | null }) {
+  if (!latestAnalysis) return null;
+
+  return (
+    <div className="analysis-summary-card">
+      <div className="analysis-summary-header">
+        <span className="analysis-summary-label">Latest Analysis</span>
+        <span className="analysis-summary-time">{latestAnalysis.analyzedAt}</span>
+      </div>
+      <div className="analysis-summary-building">{latestAnalysis.buildingName}</div>
+      <div className="analysis-summary-address">{latestAnalysis.address}</div>
+      <div className="analysis-summary-metrics">
+        <span className={`tier-badge ${getTierClass(latestAnalysis.tier)}`}>{latestAnalysis.tier}</span>
+        <span className="analysis-summary-score" style={{ color: getScoreColor(latestAnalysis.score) }}>
+          Score: {latestAnalysis.score}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 export default function FeasibilityPanel({
   result,
   selectedBuildingName,
   analyzing,
+  latestAnalysis,
 }: FeasibilityPanelProps) {
   if (!result) {
     return (
@@ -50,6 +81,9 @@ export default function FeasibilityPanel({
         <div className="panel-header">
           <h2 className="panel-title">Feasibility Analysis</h2>
         </div>
+
+        <LatestAnalysisCard latestAnalysis={latestAnalysis} />
+
         <div className="panel-body">
           <div className="empty-panel">
             <p className="empty-panel-title">
@@ -60,7 +94,7 @@ export default function FeasibilityPanel({
                   : "Select a building to start"}
             </p>
             <p className="empty-panel-copy">
-              HomeX scores zoning, utility access, transit, and structural complexity, then recommends a
+              ReZone scores zoning, utility access, transit, and structural complexity, then recommends a
               conversion strategy with cost and timeline estimates.
             </p>
           </div>
@@ -117,6 +151,8 @@ export default function FeasibilityPanel({
       <div className="panel-header">
         <h2 className="panel-title">Feasibility Analysis</h2>
       </div>
+
+      <LatestAnalysisCard latestAnalysis={latestAnalysis} />
 
       <div className="panel-body">
         <div className="score-section">

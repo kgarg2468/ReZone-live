@@ -5,7 +5,7 @@ import Map from "@/components/Map";
 import TopBar from "@/components/TopBar";
 import LayerPanel, { type LayerKey } from "@/components/LayerPanel";
 import ProjectPanel from "@/components/ProjectPanel";
-import FeasibilityPanel from "@/components/FeasibilityPanel";
+import FeasibilityPanel, { type LatestAnalysisSummary } from "@/components/FeasibilityPanel";
 import {
   checkFeasibility,
   fetchBuildings,
@@ -28,6 +28,7 @@ export default function Home() {
   const [visibleLayers, setVisibleLayers] = useState<Record<LayerKey, boolean>>(defaultVisibility);
   const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
   const [result, setResult] = useState<FeasibilityResponse | null>(null);
+  const [latestAnalysis, setLatestAnalysis] = useState<LatestAnalysisSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
   const [mapStyle, setMapStyle] = useState<"satellite" | "dark">("satellite");
@@ -89,6 +90,13 @@ export default function Home() {
       setError(null);
       const response = await checkFeasibility(selectedBuildingId);
       setResult(response);
+      setLatestAnalysis({
+        buildingName: response.building_name,
+        address: response.address,
+        tier: response.tier,
+        score: response.score,
+        analyzedAt: new Date().toLocaleString(),
+      });
     } catch (analysisError) {
       const message = analysisError instanceof Error ? analysisError.message : "Analysis failed";
       setError(message);
@@ -110,6 +118,7 @@ export default function Home() {
     setError(null);
     setVisibleLayers(defaultVisibility);
     setCityFilter("All");
+    setLatestAnalysis(null);
   };
 
   return (
@@ -150,6 +159,7 @@ export default function Home() {
         result={result}
         selectedBuildingName={selectedBuilding?.name ?? null}
         analyzing={analyzing}
+        latestAnalysis={latestAnalysis}
       />
 
       {loading ? (

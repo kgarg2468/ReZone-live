@@ -16,11 +16,7 @@ export default function TopBar({
   return (
     <header className="topbar animate-fade-in">
       <div className="topbar-brand">
-        <div className="topbar-logo">HX</div>
-        <div>
-          <h1 className="topbar-title">HomeX - Spatial Intelligence for Housing</h1>
-          <span className="topbar-subtitle">Office-to-Housing Conversion Intelligence</span>
-        </div>
+        <h1 className="topbar-title">ReZone</h1>
       </div>
 
       <div className="topbar-actions">
