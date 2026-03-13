@@ -9,7 +9,7 @@ import FeasibilityPanel, { type LatestAnalysisSummary } from "@/components/Feasi
 import {
   type BBox,
   checkFeasibility,
-  fetchBuildings,
+  fetchAllBuildings,
   fetchLayers,
   type BuildingSummary,
   type FeasibilityResponse,
@@ -71,7 +71,7 @@ export default function Home() {
         setError(null);
         const [layerPayload, buildingPayload] = await Promise.all([
           fetchLayers({ bbox: queryBbox, layers: DEFAULT_LAYERS }),
-          fetchBuildings({ bbox: queryBbox, limit: 250, offset: 0 }),
+          fetchAllBuildings({ bbox: queryBbox }),
         ]);
 
         if (!mounted) return;

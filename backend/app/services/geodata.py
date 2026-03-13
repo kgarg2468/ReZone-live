@@ -27,7 +27,7 @@ LAYER_NAMES = [
 MOCK_BUILDING_SEEDS: list[dict[str, Any]] = [
     {
         "id": "mock-good-001",
-        "name": "Mock Hudson Exchange",
+        "name": "Hudson Exchange",
         "address": "410 7th Ave",
         "city": "New York",
         "lat": 40.7528,
@@ -41,7 +41,7 @@ MOCK_BUILDING_SEEDS: list[dict[str, Any]] = [
     },
     {
         "id": "mock-good-002",
-        "name": "Mock Bryant Square Tower",
+        "name": "Bryant Square Tower",
         "address": "40 W 40th St",
         "city": "New York",
         "lat": 40.7549,
@@ -55,7 +55,7 @@ MOCK_BUILDING_SEEDS: list[dict[str, Any]] = [
     },
     {
         "id": "mock-good-003",
-        "name": "Mock Midtown Core",
+        "name": "Midtown Core",
         "address": "18 W 34th St",
         "city": "New York",
         "lat": 40.7484,
@@ -69,7 +69,7 @@ MOCK_BUILDING_SEEDS: list[dict[str, Any]] = [
     },
     {
         "id": "mock-good-004",
-        "name": "Mock Times Annex",
+        "name": "Times Annex",
         "address": "155 W 47th St",
         "city": "New York",
         "lat": 40.7580,
@@ -83,7 +83,7 @@ MOCK_BUILDING_SEEDS: list[dict[str, Any]] = [
     },
     {
         "id": "mock-good-005",
-        "name": "Mock Lexington Plaza",
+        "name": "Lexington Plaza",
         "address": "400 Lexington Ave",
         "city": "New York",
         "lat": 40.7608,
@@ -97,7 +97,7 @@ MOCK_BUILDING_SEEDS: list[dict[str, Any]] = [
     },
     {
         "id": "mock-good-006",
-        "name": "Mock Grand Hub",
+        "name": "Grand Hub",
         "address": "327 Park Ave S",
         "city": "New York",
         "lat": 40.7448,
@@ -111,7 +111,7 @@ MOCK_BUILDING_SEEDS: list[dict[str, Any]] = [
     },
     {
         "id": "mock-good-007",
-        "name": "Mock Flatiron House",
+        "name": "Flatiron House",
         "address": "41 E 22nd St",
         "city": "New York",
         "lat": 40.7412,
@@ -125,7 +125,7 @@ MOCK_BUILDING_SEEDS: list[dict[str, Any]] = [
     },
     {
         "id": "mock-good-008",
-        "name": "Mock Upper East Office",
+        "name": "Upper East Office",
         "address": "152 E 79th St",
         "city": "New York",
         "lat": 40.7712,
@@ -139,7 +139,7 @@ MOCK_BUILDING_SEEDS: list[dict[str, Any]] = [
     },
     {
         "id": "mock-good-009",
-        "name": "Mock SoHo Works",
+        "name": "SoHo Works",
         "address": "182 Spring St",
         "city": "New York",
         "lat": 40.7295,
@@ -153,7 +153,7 @@ MOCK_BUILDING_SEEDS: list[dict[str, Any]] = [
     },
     {
         "id": "mock-good-010",
-        "name": "Mock Financial Green",
+        "name": "Financial Green",
         "address": "88 Greenwich St",
         "city": "New York",
         "lat": 40.7168,
@@ -167,7 +167,7 @@ MOCK_BUILDING_SEEDS: list[dict[str, Any]] = [
     },
     {
         "id": "mock-poor-001",
-        "name": "Mock Legacy Annex",
+        "name": "Legacy Annex",
         "address": "24 Broad St",
         "city": "New York",
         "lat": 40.7058,
@@ -181,7 +181,7 @@ MOCK_BUILDING_SEEDS: list[dict[str, Any]] = [
     },
     {
         "id": "mock-poor-002",
-        "name": "Mock River Terminal",
+        "name": "River Terminal",
         "address": "245 South St",
         "city": "New York",
         "lat": 40.7099,

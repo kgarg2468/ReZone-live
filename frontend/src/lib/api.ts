@@ -145,6 +145,42 @@ export async function fetchBuildings(params?: {
   return res.json();
 }
 
+const BUILDINGS_PAGE_LIMIT = 1000;
+const BUILDINGS_MAX_PAGES = 25;
+
+export async function fetchAllBuildings(params?: {
+  bbox?: BBox;
+  pageLimit?: number;
+  maxPages?: number;
+}): Promise<BuildingSummary[]> {
+  const pageLimit = Math.max(1, Math.min(BUILDINGS_PAGE_LIMIT, params?.pageLimit ?? BUILDINGS_PAGE_LIMIT));
+  const maxPages = Math.max(1, params?.maxPages ?? BUILDINGS_MAX_PAGES);
+
+  const merged: BuildingSummary[] = [];
+  const seenIds = new Set<string>();
+
+  for (let page = 0; page < maxPages; page += 1) {
+    const offset = page * pageLimit;
+    const chunk = await fetchBuildings({
+      bbox: params?.bbox,
+      limit: pageLimit,
+      offset,
+    });
+
+    if (!chunk.length) break;
+
+    for (const building of chunk) {
+      if (seenIds.has(building.id)) continue;
+      seenIds.add(building.id);
+      merged.push(building);
+    }
+
+    if (chunk.length < pageLimit) break;
+  }
+
+  return merged;
+}
+
 export async function checkFeasibility(
   buildingId: string
 ): Promise<FeasibilityResponse> {
