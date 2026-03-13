@@ -48,10 +48,13 @@ export default function ProjectPanel({
     return buildings.filter((building) => building.city === cityFilter);
   }, [buildings, cityFilter]);
 
-  const filteredBuildings = useMemo(
-    () => cityFilteredBuildings.filter((building) => building.vacancy_pct >= minVacancyFilter),
-    [cityFilteredBuildings, minVacancyFilter]
-  );
+  const filteredBuildings = useMemo(() => {
+    const visible = cityFilteredBuildings.filter((building) => building.vacancy_pct >= minVacancyFilter);
+    visible.sort(
+      (a, b) => a.vacancy_pct - b.vacancy_pct || a.name.localeCompare(b.name)
+    );
+    return visible;
+  }, [cityFilteredBuildings, minVacancyFilter]);
 
   return (
     <section>
