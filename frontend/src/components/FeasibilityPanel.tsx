@@ -15,6 +15,8 @@ interface FeasibilityPanelProps {
   selectedBuildingName: string | null;
   analyzing: boolean;
   latestAnalysis: LatestAnalysisSummary | null;
+  collapsed: boolean;
+  onToggleCollapsed: () => void;
 }
 
 function getScoreColor(score: number): string {
@@ -75,30 +77,44 @@ export default function FeasibilityPanel({
   selectedBuildingName,
   analyzing,
   latestAnalysis,
+  collapsed,
+  onToggleCollapsed,
 }: FeasibilityPanelProps) {
   if (!result) {
     return (
       <aside className="panel panel-right animate-slide-right">
         <div className="panel-header">
           <h2 className="panel-title">Feasibility Analysis</h2>
+          <div className="panel-header-actions">
+            <button
+              className="panel-close"
+              onClick={onToggleCollapsed}
+              type="button"
+              aria-label={collapsed ? "Expand feasibility analysis" : "Collapse feasibility analysis"}
+            >
+              {collapsed ? "+" : "-"}
+            </button>
+          </div>
         </div>
 
-        <LatestAnalysisCard latestAnalysis={latestAnalysis} />
+        <div className={`panel-body-transition ${collapsed ? "panel-body-hidden" : ""}`}>
+          <LatestAnalysisCard latestAnalysis={latestAnalysis} />
 
-        <div className="panel-body">
-          <div className="empty-panel">
-            <p className="empty-panel-title">
-              {analyzing
-                ? "Running feasibility engine..."
-                : selectedBuildingName
-                  ? `Ready to analyze ${selectedBuildingName}`
-                  : "Double-click a map building to start"}
-            </p>
-            <p className="empty-panel-copy">
-              Double-click any office building on the map to run analysis instantly. ReZone scores zoning,
-              utility access, transit, and structural complexity, then recommends a conversion strategy with
-              cost and timeline estimates.
-            </p>
+          <div className="panel-body">
+            <div className="empty-panel">
+              <p className="empty-panel-title">
+                {analyzing
+                  ? "Running feasibility engine..."
+                  : selectedBuildingName
+                    ? `Ready to analyze ${selectedBuildingName}`
+                    : "Double-click a map building to start"}
+              </p>
+              <p className="empty-panel-copy">
+                Double-click any office building on the map to run analysis instantly. ReZone scores zoning,
+                utility access, transit, and structural complexity, then recommends a conversion strategy with
+                cost and timeline estimates.
+              </p>
+            </div>
           </div>
         </div>
       </aside>
@@ -156,132 +172,144 @@ export default function FeasibilityPanel({
     <aside className="panel panel-right animate-slide-right">
       <div className="panel-header">
         <h2 className="panel-title">Feasibility Analysis</h2>
+        <div className="panel-header-actions">
+          <button
+            className="panel-close"
+            onClick={onToggleCollapsed}
+            type="button"
+            aria-label={collapsed ? "Expand feasibility analysis" : "Collapse feasibility analysis"}
+          >
+            {collapsed ? "+" : "-"}
+          </button>
+        </div>
       </div>
 
-      <LatestAnalysisCard latestAnalysis={latestAnalysis} />
+      <div className={`panel-body-transition ${collapsed ? "panel-body-hidden" : ""}`}>
+        <LatestAnalysisCard latestAnalysis={latestAnalysis} />
 
-      <div className="panel-body">
-        <div className="score-section">
-          <div className="score-ring">
-            <svg aria-hidden="true">
-              <circle className="score-ring-bg" cx="60" cy="60" r={radius} />
-              <circle
-                className="score-ring-fill"
-                cx="60"
-                cy="60"
-                r={radius}
-                style={{
-                  strokeDasharray: circumference,
-                  strokeDashoffset: progressOffset,
-                  stroke: scoreColor,
-                }}
-              />
-            </svg>
-            <div className="score-value" style={{ color: scoreColor }}>
-              {result.score}
-            </div>
-          </div>
-          <div className="score-label">Feasibility Score</div>
-          <span className={`tier-badge ${getTierClass(result.tier)}`}>{result.tier}</span>
-          <p className="factor-detail" style={{ marginTop: "10px" }}>
-            {result.tier_description}
-          </p>
-          {result.data_confidence ? (
-            <p className="factor-detail" style={{ marginTop: "6px" }}>
-              Live Data Confidence: {Math.round(result.data_confidence.overall * 100)}%
-            </p>
-          ) : null}
-        </div>
-
-        <div className="section-divider">Factor Breakdown</div>
-        {factors.map((factor) => (
-          <div className="factor-card" key={factor.key}>
-            <div className="factor-header">
-              <span className="factor-name">{factor.label}</span>
-              <div>
-                {factor.confidence !== undefined ? (
-                  <span className="tier-badge tier-good" style={{ marginRight: "8px" }}>
-                    Live {Math.round(factor.confidence * 100)}%
-                  </span>
-                ) : null}
-                <span className="factor-score" style={{ color: getScoreColor(factor.score) }}>
-                  {Math.round(factor.score)}
-                </span>
+        <div className="panel-body">
+          <div className="score-section">
+            <div className="score-ring">
+              <svg aria-hidden="true">
+                <circle className="score-ring-bg" cx="60" cy="60" r={radius} />
+                <circle
+                  className="score-ring-fill"
+                  cx="60"
+                  cy="60"
+                  r={radius}
+                  style={{
+                    strokeDasharray: circumference,
+                    strokeDashoffset: progressOffset,
+                    stroke: scoreColor,
+                  }}
+                />
+              </svg>
+              <div className="score-value" style={{ color: scoreColor }}>
+                {result.score}
               </div>
             </div>
-            <div className="factor-bar">
-              <div
-                className="factor-bar-fill"
-                style={{
-                  width: `${Math.max(0, Math.min(100, factor.score))}%`,
-                  backgroundColor: getScoreColor(factor.score),
-                }}
-              />
-            </div>
-            <p className="factor-detail">{factor.detail}</p>
+            <div className="score-label">Feasibility Score</div>
+            <span className={`tier-badge ${getTierClass(result.tier)}`}>{result.tier}</span>
+            <p className="factor-detail" style={{ marginTop: "10px" }}>
+              {result.tier_description}
+            </p>
+            {result.data_confidence ? (
+              <p className="factor-detail" style={{ marginTop: "6px" }}>
+                Live Data Confidence: {Math.round(result.data_confidence.overall * 100)}%
+              </p>
+            ) : null}
           </div>
-        ))}
 
-        <div className="section-divider">Conflicts</div>
-        <div className="factor-card">
-          {result.conflicts.length === 0 ? (
-            <p className="factor-detail">No critical blockers detected in current pass.</p>
-          ) : (
-            <ul className="conflict-list">
-              {result.conflicts.map((conflict) => (
-                <li className="factor-detail" key={conflict}>
-                  {conflict}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+          <div className="section-divider">Factor Breakdown</div>
+          {factors.map((factor) => (
+            <div className="factor-card" key={factor.key}>
+              <div className="factor-header">
+                <span className="factor-name">{factor.label}</span>
+                <div>
+                  {factor.confidence !== undefined ? (
+                    <span className="tier-badge tier-good" style={{ marginRight: "8px" }}>
+                      Live {Math.round(factor.confidence * 100)}%
+                    </span>
+                  ) : null}
+                  <span className="factor-score" style={{ color: getScoreColor(factor.score) }}>
+                    {Math.round(factor.score)}
+                  </span>
+                </div>
+              </div>
+              <div className="factor-bar">
+                <div
+                  className="factor-bar-fill"
+                  style={{
+                    width: `${Math.max(0, Math.min(100, factor.score))}%`,
+                    backgroundColor: getScoreColor(factor.score),
+                  }}
+                />
+              </div>
+              <p className="factor-detail">{factor.detail}</p>
+            </div>
+          ))}
 
-        <div className="section-divider">Recommendation</div>
-        <div className="recommendation">
-          <h3 className="recommendation-type">{result.recommendation.conversion_type}</h3>
-          <p className="recommendation-rationale">{result.recommendation.rationale}</p>
+          <div className="section-divider">Conflicts</div>
+          <div className="factor-card">
+            {result.conflicts.length === 0 ? (
+              <p className="factor-detail">No critical blockers detected in current pass.</p>
+            ) : (
+              <ul className="conflict-list">
+                {result.conflicts.map((conflict) => (
+                  <li className="factor-detail" key={conflict}>
+                    {conflict}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
-          <div className="recommendation-stats">
-            <div className="rec-stat">
-              <div className="rec-stat-value">{Math.round(result.recommendation.confidence * 100)}%</div>
-              <div className="rec-stat-label">Confidence</div>
-            </div>
-            <div className="rec-stat">
-              <div className="rec-stat-value">{result.recommendation.estimated_units}</div>
-              <div className="rec-stat-label">Est. Units</div>
-            </div>
-            <div className="rec-stat">
-              <div className="rec-stat-value">{result.recommendation.timeline_months}</div>
-              <div className="rec-stat-label">Months</div>
-            </div>
-            <div className="rec-stat">
-              <div className="rec-stat-value">{currency(lowTotal)}</div>
-              <div className="rec-stat-label">Low Budget</div>
+          <div className="section-divider">Recommendation</div>
+          <div className="recommendation">
+            <h3 className="recommendation-type">{result.recommendation.conversion_type}</h3>
+            <p className="recommendation-rationale">{result.recommendation.rationale}</p>
+
+            <div className="recommendation-stats">
+              <div className="rec-stat">
+                <div className="rec-stat-value">{Math.round(result.recommendation.confidence * 100)}%</div>
+                <div className="rec-stat-label">Confidence</div>
+              </div>
+              <div className="rec-stat">
+                <div className="rec-stat-value">{result.recommendation.estimated_units}</div>
+                <div className="rec-stat-label">Est. Units</div>
+              </div>
+              <div className="rec-stat">
+                <div className="rec-stat-value">{result.recommendation.timeline_months}</div>
+                <div className="rec-stat-label">Months</div>
+              </div>
+              <div className="rec-stat">
+                <div className="rec-stat-value">{currency(lowTotal)}</div>
+                <div className="rec-stat-label">Low Budget</div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <table className="cost-table">
-          <thead>
-            <tr>
-              <th>Category</th>
-              <th>Estimate</th>
-            </tr>
-          </thead>
-          <tbody>
-            {result.recommendation.cost_estimates.map((item) => (
-              <tr key={item.category}>
-                <td>{item.category}</td>
-                <td>{`${currency(item.low_estimate)} - ${currency(item.high_estimate)}`}</td>
+          <table className="cost-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Estimate</th>
               </tr>
-            ))}
-            <tr>
-              <td className="cost-total">Total</td>
-              <td className="cost-total">{`${currency(lowTotal)} - ${currency(highTotal)}`}</td>
-            </tr>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {result.recommendation.cost_estimates.map((item) => (
+                <tr key={item.category}>
+                  <td>{item.category}</td>
+                  <td>{`${currency(item.low_estimate)} - ${currency(item.high_estimate)}`}</td>
+                </tr>
+              ))}
+              <tr>
+                <td className="cost-total">Total</td>
+                <td className="cost-total">{`${currency(lowTotal)} - ${currency(highTotal)}`}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </aside>
   );

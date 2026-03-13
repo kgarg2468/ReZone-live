@@ -214,6 +214,54 @@ def _confidence_score(
     )
 
 
+def _apply_mock_profile(props, zoning, utilities, transit, structural) -> None:
+    profile = str(props.get("mock_profile", "")).strip().lower()
+    if profile == "great":
+        zoning.score = 92.0
+        zoning.requires_rezoning = False
+        zoning.allows_residential = True
+
+        for utility in utilities:
+            utility.score = 88.0
+            utility.capacity = "high"
+            utility.condition = "good"
+
+        transit.score = 89.0
+        if not transit.nearest_stations:
+            transit.nearest_stations = [{
+                "name": "Mock Central Station",
+                "line": "A/C/E",
+                "type": "subway",
+                "distance_km": 0.18,
+                "daily_ridership": 56000,
+                "source": "HomeX Mock Data",
+                "is_proxy": False,
+            }]
+        transit.avg_distance_km = min(transit.avg_distance_km, 0.2)
+        transit.total_daily_ridership = max(transit.total_daily_ridership, 56000)
+
+        structural.score = 86.0
+        structural.conversion_difficulty = "easy"
+        return
+
+    if profile == "poor":
+        zoning.score = 26.0
+        zoning.requires_rezoning = True
+        zoning.allows_residential = False
+
+        for utility in utilities:
+            utility.score = 28.0
+            utility.capacity = "low"
+            utility.condition = "poor"
+
+        transit.score = 32.0
+        transit.total_daily_ridership = min(transit.total_daily_ridership, 9000)
+        transit.avg_distance_km = max(transit.avg_distance_km, 0.85)
+
+        structural.score = 30.0
+        structural.conversion_difficulty = "hard"
+
+
 # ------------------------------------------------------------------
 @router.post("/api/feasibility-check")
 def feasibility_check(req: FeasibilityRequest) -> FeasibilityResponse:
@@ -229,6 +277,9 @@ def feasibility_check(req: FeasibilityRequest) -> FeasibilityResponse:
     utilities = _engine.assess_utilities(center, req.radius_km)
     transit = _engine.assess_transit(center, req.radius_km)
     structural = _engine.assess_structural(props)
+
+    _apply_mock_profile(props, zoning, utilities, transit, structural)
+
     confidence = _confidence_score(props, zoning, utilities, transit)
 
     # Average utility scores

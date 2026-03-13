@@ -24,6 +24,245 @@ LAYER_NAMES = [
     "transit_stops",
 ]
 
+MOCK_BUILDING_SEEDS: list[dict[str, Any]] = [
+    {
+        "id": "mock-good-001",
+        "name": "Mock Hudson Exchange",
+        "address": "410 7th Ave",
+        "city": "New York",
+        "lat": 40.7528,
+        "lng": -73.9875,
+        "sqft": 165000,
+        "floors": 16,
+        "year_built": 1998,
+        "vacancy_pct": 4,
+        "structural_type": "steel-frame",
+        "mock_profile": "great",
+    },
+    {
+        "id": "mock-good-002",
+        "name": "Mock Bryant Square Tower",
+        "address": "40 W 40th St",
+        "city": "New York",
+        "lat": 40.7549,
+        "lng": -73.9840,
+        "sqft": 142000,
+        "floors": 14,
+        "year_built": 2004,
+        "vacancy_pct": 6,
+        "structural_type": "steel-frame",
+        "mock_profile": "great",
+    },
+    {
+        "id": "mock-good-003",
+        "name": "Mock Midtown Core",
+        "address": "18 W 34th St",
+        "city": "New York",
+        "lat": 40.7484,
+        "lng": -73.9857,
+        "sqft": 118000,
+        "floors": 12,
+        "year_built": 1992,
+        "vacancy_pct": 2,
+        "structural_type": "concrete",
+        "mock_profile": "great",
+    },
+    {
+        "id": "mock-good-004",
+        "name": "Mock Times Annex",
+        "address": "155 W 47th St",
+        "city": "New York",
+        "lat": 40.7580,
+        "lng": -73.9855,
+        "sqft": 126000,
+        "floors": 15,
+        "year_built": 2001,
+        "vacancy_pct": 8,
+        "structural_type": "steel-frame",
+        "mock_profile": "great",
+    },
+    {
+        "id": "mock-good-005",
+        "name": "Mock Lexington Plaza",
+        "address": "400 Lexington Ave",
+        "city": "New York",
+        "lat": 40.7608,
+        "lng": -73.9795,
+        "sqft": 172000,
+        "floors": 18,
+        "year_built": 2008,
+        "vacancy_pct": 7,
+        "structural_type": "steel-frame",
+        "mock_profile": "great",
+    },
+    {
+        "id": "mock-good-006",
+        "name": "Mock Grand Hub",
+        "address": "327 Park Ave S",
+        "city": "New York",
+        "lat": 40.7448,
+        "lng": -73.9808,
+        "sqft": 98000,
+        "floors": 11,
+        "year_built": 1996,
+        "vacancy_pct": 5,
+        "structural_type": "concrete",
+        "mock_profile": "great",
+    },
+    {
+        "id": "mock-good-007",
+        "name": "Mock Flatiron House",
+        "address": "41 E 22nd St",
+        "city": "New York",
+        "lat": 40.7412,
+        "lng": -73.9897,
+        "sqft": 89000,
+        "floors": 10,
+        "year_built": 1990,
+        "vacancy_pct": 1,
+        "structural_type": "concrete",
+        "mock_profile": "great",
+    },
+    {
+        "id": "mock-good-008",
+        "name": "Mock Upper East Office",
+        "address": "152 E 79th St",
+        "city": "New York",
+        "lat": 40.7712,
+        "lng": -73.9742,
+        "sqft": 76000,
+        "floors": 9,
+        "year_built": 1988,
+        "vacancy_pct": 9,
+        "structural_type": "concrete",
+        "mock_profile": "great",
+    },
+    {
+        "id": "mock-good-009",
+        "name": "Mock SoHo Works",
+        "address": "182 Spring St",
+        "city": "New York",
+        "lat": 40.7295,
+        "lng": -73.9980,
+        "sqft": 67000,
+        "floors": 8,
+        "year_built": 1999,
+        "vacancy_pct": 3,
+        "structural_type": "steel-frame",
+        "mock_profile": "great",
+    },
+    {
+        "id": "mock-good-010",
+        "name": "Mock Financial Green",
+        "address": "88 Greenwich St",
+        "city": "New York",
+        "lat": 40.7168,
+        "lng": -74.0002,
+        "sqft": 101000,
+        "floors": 13,
+        "year_built": 2007,
+        "vacancy_pct": 10,
+        "structural_type": "steel-frame",
+        "mock_profile": "great",
+    },
+    {
+        "id": "mock-poor-001",
+        "name": "Mock Legacy Annex",
+        "address": "24 Broad St",
+        "city": "New York",
+        "lat": 40.7058,
+        "lng": -74.0132,
+        "sqft": 54000,
+        "floors": 27,
+        "year_built": 1915,
+        "vacancy_pct": 6,
+        "structural_type": "masonry",
+        "mock_profile": "poor",
+    },
+    {
+        "id": "mock-poor-002",
+        "name": "Mock River Terminal",
+        "address": "245 South St",
+        "city": "New York",
+        "lat": 40.7099,
+        "lng": -73.9915,
+        "sqft": 61000,
+        "floors": 30,
+        "year_built": 1922,
+        "vacancy_pct": 8,
+        "structural_type": "masonry",
+        "mock_profile": "poor",
+    },
+]
+
+
+def _bbox_contains_lat_lng(bbox: BBox, lat: float, lng: float) -> bool:
+    min_lng, min_lat, max_lng, max_lat = bbox
+    return min_lng <= lng <= max_lng and min_lat <= lat <= max_lat
+
+
+def _mock_polygon(lat: float, lng: float, side_m: float = 34.0) -> dict[str, Any]:
+    dlat = side_m / 111_000.0
+    dlng = side_m / (111_000.0 * max(0.2, math.cos(math.radians(lat))))
+    return {
+        "type": "Polygon",
+        "coordinates": [[
+            [lng - dlng, lat - dlat],
+            [lng + dlng, lat - dlat],
+            [lng + dlng, lat + dlat],
+            [lng - dlng, lat + dlat],
+            [lng - dlng, lat - dlat],
+        ]],
+    }
+
+
+def _mock_building_feature(seed: dict[str, Any]) -> dict[str, Any]:
+    floors = int(seed["floors"])
+    props = {
+        "id": seed["id"],
+        "name": seed["name"],
+        "address": seed["address"],
+        "city": seed["city"],
+        "sqft": int(seed["sqft"]),
+        "floors": floors,
+        "year_built": int(seed["year_built"]),
+        "vacancy_pct": int(seed["vacancy_pct"]),
+        "current_use": "Office",
+        "structural_type": seed["structural_type"],
+        "parking_spaces": 0,
+        "has_elevator": floors >= 7,
+        "ceiling_height_ft": 12 if floors >= 12 else 11,
+        "lat": float(seed["lat"]),
+        "lng": float(seed["lng"]),
+        "data_source": "HomeX Mock Data",
+        "vacancy_is_proxy": False,
+        "structural_type_is_proxy": False,
+        "ceiling_height_is_proxy": False,
+        "has_elevator_is_proxy": False,
+        "mock_profile": seed["mock_profile"],
+    }
+    return {
+        "type": "Feature",
+        "id": seed["id"],
+        "properties": props,
+        "geometry": _mock_polygon(props["lat"], props["lng"]),
+    }
+
+
+def _mock_buildings_for_bbox(bbox: BBox) -> list[dict[str, Any]]:
+    features: list[dict[str, Any]] = []
+    for seed in MOCK_BUILDING_SEEDS:
+        if _bbox_contains_lat_lng(bbox, float(seed["lat"]), float(seed["lng"])):
+            features.append(_mock_building_feature(seed))
+    return features
+
+
+def _mock_building_by_id(building_id: str) -> dict[str, Any] | None:
+    for seed in MOCK_BUILDING_SEEDS:
+        if seed["id"] == building_id:
+            return _mock_building_feature(seed)
+    return None
+
 
 class GeoDataService:
     """Loads live geo layers on demand and exposes spatial query helpers."""
@@ -75,6 +314,14 @@ class GeoDataService:
         return result
 
     def get_building_by_id(self, building_id: str) -> Optional[tuple[dict, object]]:
+        mock_feature = _mock_building_by_id(building_id)
+        if mock_feature is not None:
+            try:
+                geom = shape(mock_feature["geometry"])
+            except Exception:
+                return None
+            return mock_feature, geom
+
         try:
             feature = self.pluto.fetch_building_by_id(building_id)
         except Exception as exc:
@@ -217,6 +464,24 @@ class GeoDataService:
         try:
             if layer_name == "office_buildings":
                 layer = self.pluto.fetch_buildings(bbox, limit=limit, offset=offset)
+                if offset == 0:
+                    mock_features = _mock_buildings_for_bbox(bbox)
+                    if mock_features:
+                        live_features = layer.get("features", [])
+                        known_ids = {
+                            str(feature.get("id") or feature.get("properties", {}).get("id"))
+                            for feature in live_features
+                        }
+                        for mock_feature in mock_features:
+                            mock_id = str(
+                                mock_feature.get("id")
+                                or mock_feature.get("properties", {}).get("id")
+                            )
+                            if mock_id in known_ids:
+                                continue
+                            live_features.append(mock_feature)
+                            known_ids.add(mock_id)
+                        layer["features"] = live_features
             elif layer_name == "zoning_districts":
                 layer = self.zoning.fetch_zones(bbox, limit=max(limit, 1200))
             elif layer_name == "transit_stops":

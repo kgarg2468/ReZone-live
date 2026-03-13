@@ -916,6 +916,26 @@ main {
   background: var(--accent-muted);
 }
 
+.vacancy-filter {
+  margin: 8px 0 12px;
+}
+
+.vacancy-filter-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.vacancy-filter-range {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
 /* ──────────────────────────────────────────────────────────
    Additional Layout + States
    ────────────────────────────────────────────────────────── */

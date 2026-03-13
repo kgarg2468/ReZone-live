@@ -43,6 +43,9 @@ export default function Home() {
   const analyzingRef = useRef(false);
   const [mapStyle, setMapStyle] = useState<"satellite" | "dark">("satellite");
   const [cityFilter, setCityFilter] = useState("All");
+  const [minVacancyFilter, setMinVacancyFilter] = useState(0);
+  const [projectPanelCollapsed, setProjectPanelCollapsed] = useState(false);
+  const [feasibilityPanelCollapsed, setFeasibilityPanelCollapsed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [viewportBbox, setViewportBbox] = useState<BBox>(DEFAULT_BBOX);
   const [queryBbox, setQueryBbox] = useState<BBox>(DEFAULT_BBOX);
@@ -140,10 +143,12 @@ export default function Home() {
 
   const handleAnalyze = async () => {
     if (!selectedBuildingId) return;
+    setFeasibilityPanelCollapsed(false);
     await runAnalysis(selectedBuildingId);
   };
 
   const handleAnalyzeBuilding = async (buildingId: string) => {
+    setFeasibilityPanelCollapsed(false);
     await runAnalysis(buildingId);
   };
 
@@ -160,7 +165,10 @@ export default function Home() {
     setError(null);
     setVisibleLayers(defaultVisibility);
     setCityFilter("All");
+    setMinVacancyFilter(0);
     setLatestAnalysis(null);
+    setProjectPanelCollapsed(false);
+    setFeasibilityPanelCollapsed(false);
     setViewportBbox(DEFAULT_BBOX);
     setQueryBbox(DEFAULT_BBOX);
   };
@@ -197,6 +205,10 @@ export default function Home() {
             analyzing={analyzing}
             cityFilter={cityFilter}
             onCityFilterChange={setCityFilter}
+            minVacancyFilter={minVacancyFilter}
+            onMinVacancyFilterChange={setMinVacancyFilter}
+            collapsed={projectPanelCollapsed}
+            onToggleCollapsed={() => setProjectPanelCollapsed((value) => !value)}
           />
         </div>
       </aside>
@@ -206,6 +218,8 @@ export default function Home() {
         selectedBuildingName={selectedBuilding?.name ?? null}
         analyzing={analyzing}
         latestAnalysis={latestAnalysis}
+        collapsed={feasibilityPanelCollapsed}
+        onToggleCollapsed={() => setFeasibilityPanelCollapsed((value) => !value)}
       />
 
       {loading && buildings.length === 0 ? (
