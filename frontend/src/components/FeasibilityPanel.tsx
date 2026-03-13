@@ -46,6 +46,7 @@ interface FactorItem {
   label: string;
   score: number;
   detail: string;
+  confidence?: number;
 }
 
 function LatestAnalysisCard({ latestAnalysis }: { latestAnalysis: LatestAnalysisSummary | null }) {
@@ -116,24 +117,28 @@ export default function FeasibilityPanel({
       detail: result.zoning.requires_rezoning
         ? `Current district (${result.zoning.zone_name}) requires rezoning.`
         : `Residential use allowed in ${result.zoning.zone_name}.`,
+      confidence: result.data_confidence?.zoning,
     },
     {
       key: "utilities",
       label: "Utilities",
       score: result.factor_scores.utilities,
       detail: `${result.utilities.length} utility systems evaluated in radius.`,
+      confidence: result.data_confidence?.utilities,
     },
     {
       key: "transit",
       label: "Transit",
       score: result.factor_scores.transit,
       detail: `${result.transit.nearest_stations.length} nearby stations with ${result.transit.total_daily_ridership.toLocaleString()} daily riders.`,
+      confidence: result.data_confidence?.transit,
     },
     {
       key: "structural",
       label: "Structural",
       score: result.factor_scores.structural,
       detail: `${result.structural.structural_type}, ${result.structural.floors} floors, ${result.structural.conversion_difficulty} conversion difficulty.`,
+      confidence: result.data_confidence?.structural,
     },
   ];
 
@@ -180,6 +185,11 @@ export default function FeasibilityPanel({
           <p className="factor-detail" style={{ marginTop: "10px" }}>
             {result.tier_description}
           </p>
+          {result.data_confidence ? (
+            <p className="factor-detail" style={{ marginTop: "6px" }}>
+              Live Data Confidence: {Math.round(result.data_confidence.overall * 100)}%
+            </p>
+          ) : null}
         </div>
 
         <div className="section-divider">Factor Breakdown</div>
@@ -187,9 +197,16 @@ export default function FeasibilityPanel({
           <div className="factor-card" key={factor.key}>
             <div className="factor-header">
               <span className="factor-name">{factor.label}</span>
-              <span className="factor-score" style={{ color: getScoreColor(factor.score) }}>
-                {Math.round(factor.score)}
-              </span>
+              <div>
+                {factor.confidence !== undefined ? (
+                  <span className="tier-badge tier-good" style={{ marginRight: "8px" }}>
+                    Live {Math.round(factor.confidence * 100)}%
+                  </span>
+                ) : null}
+                <span className="factor-score" style={{ color: getScoreColor(factor.score) }}>
+                  {Math.round(factor.score)}
+                </span>
+              </div>
             </div>
             <div className="factor-bar">
               <div

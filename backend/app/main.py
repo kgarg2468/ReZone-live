@@ -1,5 +1,6 @@
 """HomeX Backend — FastAPI application."""
 
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -27,10 +28,13 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+raw_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000")
+allow_origins = [origin.strip() for origin in raw_origins.split(",") if origin.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=allow_origins,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )

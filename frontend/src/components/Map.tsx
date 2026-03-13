@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
-import type { BuildingSummary, LayerInfo } from "@/lib/api";
+import type { BBox, BuildingSummary, LayerInfo } from "@/lib/api";
 import type { LayerKey } from "@/components/LayerPanel";
 
 type MapStyle = "satellite" | "dark";
@@ -14,6 +14,7 @@ interface MapProps {
   buildings: BuildingSummary[];
   selectedBuildingId: string | null;
   onSelectBuilding: (buildingId: string) => void;
+  onViewportChange?: (bbox: BBox) => void;
 }
 
 const MAP_STYLE_URLS: Record<MapStyle, string> = {
@@ -54,11 +55,27 @@ export default function Map({
   buildings,
   selectedBuildingId,
   onSelectBuilding,
+  onViewportChange,
 }: MapProps) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
 
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+
+  const emitBounds = useCallback(
+    (map: mapboxgl.Map) => {
+      if (!onViewportChange) return;
+      const bounds = map.getBounds();
+      if (!bounds) return;
+      onViewportChange([
+        bounds.getWest(),
+        bounds.getSouth(),
+        bounds.getEast(),
+        bounds.getNorth(),
+      ]);
+    },
+    [onViewportChange]
+  );
 
   const syncMapLayers = useCallback(
     (map: mapboxgl.Map) => {
@@ -267,6 +284,7 @@ export default function Map({
     map.on("load", () => {
       syncMapLayers(map);
       syncLayerVisibility(map);
+      emitBounds(map);
 
       map.on("click", "office-buildings-fill", (event) => {
         const feature = event.features?.[0];
@@ -298,11 +316,15 @@ export default function Map({
       });
     });
 
+    map.on("moveend", () => {
+      emitBounds(map);
+    });
+
     return () => {
       map.remove();
       mapRef.current = null;
     };
-  }, [mapStyle, onSelectBuilding, syncLayerVisibility, syncMapLayers, token]);
+  }, [emitBounds, mapStyle, onSelectBuilding, syncLayerVisibility, syncMapLayers, token]);
 
   useEffect(() => {
     const map = mapRef.current;

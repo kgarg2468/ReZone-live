@@ -89,6 +89,8 @@ class FeasibilityEngine:
                     condition="unavailable",
                     age_years=0,
                     score=10.0,
+                    source="OpenStreetMap Overpass",
+                    is_proxy=True,
                 ))
                 continue
 
@@ -115,6 +117,8 @@ class FeasibilityEngine:
                 condition=props.get("condition", "unknown"),
                 age_years=props.get("age_years", 0),
                 score=round(score, 1),
+                source=props.get("source", "Unknown"),
+                is_proxy=bool(props.get("is_proxy", False)),
             ))
 
         return assessments
@@ -131,6 +135,8 @@ class FeasibilityEngine:
                 avg_distance_km=999,
                 total_daily_ridership=0,
                 score=15.0,
+                source="Transitland",
+                is_proxy=True,
             )
 
         stations = []
@@ -138,14 +144,20 @@ class FeasibilityEngine:
         total_dist = 0.0
         for feat, geom, dist in nearby[:5]:  # top 5
             props = feat["properties"]
+            route_count = props.get("route_count", 0)
+            ridership = props.get("daily_ridership", 0)
+            if not ridership and route_count:
+                ridership = route_count * 5000
             stations.append({
                 "name": props.get("station_name", "Unknown"),
                 "line": props.get("line_name", ""),
                 "type": props.get("transit_type", ""),
                 "distance_km": dist,
-                "daily_ridership": props.get("daily_ridership", 0),
+                "daily_ridership": ridership,
+                "source": props.get("source", "Transitland"),
+                "is_proxy": bool(props.get("is_proxy", True)),
             })
-            total_ridership += props.get("daily_ridership", 0)
+            total_ridership += ridership
             total_dist += dist
 
         avg_dist = total_dist / len(stations) if stations else 999
@@ -160,6 +172,8 @@ class FeasibilityEngine:
             avg_distance_km=round(avg_dist, 3),
             total_daily_ridership=total_ridership,
             score=round(min(100, score), 1),
+            source="Transitland",
+            is_proxy=True,
         )
 
     # ------------------------------------------------------------------
