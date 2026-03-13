@@ -1,5 +1,7 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
+export type BBox = [number, number, number, number];
+
 export interface BuildingSummary {
   id: string;
   name: string;
@@ -43,6 +45,8 @@ export interface UtilityAssessment {
   condition: string;
   age_years: number;
   score: number;
+  source?: string;
+  is_proxy?: boolean;
 }
 
 export interface ZoningAssessment {
@@ -62,10 +66,14 @@ export interface TransitAssessment {
     type: string;
     distance_km: number;
     daily_ridership: number;
+    source?: string;
+    is_proxy?: boolean;
   }>;
   avg_distance_km: number;
   total_daily_ridership: number;
   score: number;
+  source?: string;
+  is_proxy?: boolean;
 }
 
 export interface StructuralAssessment {
@@ -93,18 +101,84 @@ export interface FeasibilityResponse {
   structural: StructuralAssessment;
   recommendation: ConversionRecommendation;
   factor_scores: Record<string, number>;
+  data_confidence?: {
+    overall: number;
+    zoning: number;
+    utilities: number;
+    transit: number;
+    structural: number;
+  };
 }
 
-export async function fetchLayers(): Promise<Record<string, LayerInfo>> {
-  const res = await fetch(`${API_BASE}/api/layers`);
+function bboxParam(bbox?: BBox): string | null {
+  if (!bbox) return null;
+  return bbox.join(",");
+}
+
+export async function fetchLayers(params?: {
+  bbox?: BBox;
+  layers?: string[];
+}): Promise<Record<string, LayerInfo>> {
+  const search = new URLSearchParams();
+  const bbox = bboxParam(params?.bbox);
+  if (bbox) search.set("bbox", bbox);
+  if (params?.layers?.length) search.set("layers", params.layers.join(","));
+  const qs = search.toString();
+  const res = await fetch(`${API_BASE}/api/layers${qs ? `?${qs}` : ""}`);
   if (!res.ok) throw new Error("Failed to fetch layers");
   return res.json();
 }
 
-export async function fetchBuildings(): Promise<BuildingSummary[]> {
-  const res = await fetch(`${API_BASE}/api/buildings`);
+export async function fetchBuildings(params?: {
+  bbox?: BBox;
+  limit?: number;
+  offset?: number;
+}): Promise<BuildingSummary[]> {
+  const search = new URLSearchParams();
+  const bbox = bboxParam(params?.bbox);
+  if (bbox) search.set("bbox", bbox);
+  search.set("limit", String(params?.limit ?? 200));
+  search.set("offset", String(params?.offset ?? 0));
+
+  const res = await fetch(`${API_BASE}/api/buildings?${search.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch buildings");
   return res.json();
+}
+
+const BUILDINGS_PAGE_LIMIT = 1000;
+const BUILDINGS_MAX_PAGES = 25;
+
+export async function fetchAllBuildings(params?: {
+  bbox?: BBox;
+  pageLimit?: number;
+  maxPages?: number;
+}): Promise<BuildingSummary[]> {
+  const pageLimit = Math.max(1, Math.min(BUILDINGS_PAGE_LIMIT, params?.pageLimit ?? BUILDINGS_PAGE_LIMIT));
+  const maxPages = Math.max(1, params?.maxPages ?? BUILDINGS_MAX_PAGES);
+
+  const merged: BuildingSummary[] = [];
+  const seenIds = new Set<string>();
+
+  for (let page = 0; page < maxPages; page += 1) {
+    const offset = page * pageLimit;
+    const chunk = await fetchBuildings({
+      bbox: params?.bbox,
+      limit: pageLimit,
+      offset,
+    });
+
+    if (!chunk.length) break;
+
+    for (const building of chunk) {
+      if (seenIds.has(building.id)) continue;
+      seenIds.add(building.id);
+      merged.push(building);
+    }
+
+    if (chunk.length < pageLimit) break;
+  }
+
+  return merged;
 }
 
 export async function checkFeasibility(

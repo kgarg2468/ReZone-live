@@ -25,6 +25,8 @@ class UtilityAssessment(BaseModel):
     condition: str
     age_years: int
     score: float  # 0-100
+    source: str | None = None
+    is_proxy: bool | None = None
 
 
 class ZoningAssessment(BaseModel):
@@ -42,6 +44,8 @@ class TransitAssessment(BaseModel):
     avg_distance_km: float
     total_daily_ridership: int
     score: float  # 0-100
+    source: str | None = None
+    is_proxy: bool | None = None
 
 
 class StructuralAssessment(BaseModel):
@@ -71,6 +75,14 @@ class ConversionRecommendation(BaseModel):
     timeline_months: int
 
 
+class DataConfidence(BaseModel):
+    overall: float
+    zoning: float
+    utilities: float
+    transit: float
+    structural: float
+
+
 class FeasibilityResponse(BaseModel):
     building_id: str
     building_name: str
@@ -88,6 +100,7 @@ class FeasibilityResponse(BaseModel):
     recommendation: ConversionRecommendation
 
     factor_scores: dict[str, float]
+    data_confidence: DataConfidence | None = None
 
 
 class BuildingSummary(BaseModel):
