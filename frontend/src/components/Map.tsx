@@ -59,22 +59,36 @@ export default function Map({
 }: MapProps) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  const onSelectBuildingRef = useRef(onSelectBuilding);
+  const onViewportChangeRef = useRef(onViewportChange);
+  const syncMapLayersRef = useRef<(map: mapboxgl.Map) => void>(() => undefined);
+  const syncLayerVisibilityRef = useRef<(map: mapboxgl.Map) => void>(() => undefined);
+  const lastFlyToBuildingIdRef = useRef<string | null>(null);
 
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
+  useEffect(() => {
+    onSelectBuildingRef.current = onSelectBuilding;
+  }, [onSelectBuilding]);
+
+  useEffect(() => {
+    onViewportChangeRef.current = onViewportChange;
+  }, [onViewportChange]);
+
   const emitBounds = useCallback(
     (map: mapboxgl.Map) => {
-      if (!onViewportChange) return;
+      const onViewportChangeCb = onViewportChangeRef.current;
+      if (!onViewportChangeCb) return;
       const bounds = map.getBounds();
       if (!bounds) return;
-      onViewportChange([
+      onViewportChangeCb([
         bounds.getWest(),
         bounds.getSouth(),
         bounds.getEast(),
         bounds.getNorth(),
       ]);
     },
-    [onViewportChange]
+    []
   );
 
   const syncMapLayers = useCallback(
@@ -262,6 +276,14 @@ export default function Map({
   );
 
   useEffect(() => {
+    syncMapLayersRef.current = syncMapLayers;
+  }, [syncMapLayers]);
+
+  useEffect(() => {
+    syncLayerVisibilityRef.current = syncLayerVisibility;
+  }, [syncLayerVisibility]);
+
+  useEffect(() => {
     if (!mapContainerRef.current || !token) {
       return;
     }
@@ -282,8 +304,8 @@ export default function Map({
     map.addControl(new mapboxgl.NavigationControl({ showCompass: true, showZoom: true }), "bottom-right");
 
     map.on("load", () => {
-      syncMapLayers(map);
-      syncLayerVisibility(map);
+      syncMapLayersRef.current(map);
+      syncLayerVisibilityRef.current(map);
       emitBounds(map);
 
       map.on("click", "office-buildings-fill", (event) => {
@@ -295,7 +317,7 @@ export default function Map({
 
         if (!buildingId || typeof buildingId !== "string") return;
 
-        onSelectBuilding(buildingId);
+        onSelectBuildingRef.current(buildingId);
 
         new mapboxgl.Popup({ closeButton: true, closeOnClick: true })
           .setLngLat(event.lngLat)
@@ -324,7 +346,7 @@ export default function Map({
       map.remove();
       mapRef.current = null;
     };
-  }, [emitBounds, mapStyle, onSelectBuilding, syncLayerVisibility, syncMapLayers, token]);
+  }, [emitBounds, mapStyle, token]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -339,12 +361,20 @@ export default function Map({
   }, [syncLayerVisibility]);
 
   useEffect(() => {
+    if (!selectedBuildingId) {
+      lastFlyToBuildingIdRef.current = null;
+    }
+  }, [selectedBuildingId]);
+
+  useEffect(() => {
     const map = mapRef.current;
     if (!map || !selectedBuildingId) return;
+    if (lastFlyToBuildingIdRef.current === selectedBuildingId) return;
 
     const selected = buildings.find((building) => building.id === selectedBuildingId);
     if (!selected) return;
 
+    lastFlyToBuildingIdRef.current = selectedBuildingId;
     map.flyTo({
       center: [selected.lng, selected.lat],
       zoom: 15,
