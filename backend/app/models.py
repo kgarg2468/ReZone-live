@@ -1,11 +1,21 @@
 from __future__ import annotations
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 
 
 class FeasibilityRequest(BaseModel):
-    building_id: str
+    building_id: Optional[str] = None
+    lat: Optional[float] = None
+    lng: Optional[float] = None
     radius_km: float = 1.0  # search radius for nearby infrastructure
+
+    @model_validator(mode="after")
+    def validate_location_input(self) -> "FeasibilityRequest":
+        has_building_id = bool(self.building_id)
+        has_coordinates = self.lat is not None and self.lng is not None
+        if not has_building_id and not has_coordinates:
+            raise ValueError("Provide either building_id or both lat/lng")
+        return self
 
 
 class UtilityAssessment(BaseModel):
@@ -68,6 +78,7 @@ class FeasibilityResponse(BaseModel):
     score: int  # 0-100
     tier: str  # Excellent, Good, Moderate, Poor
     tier_description: str
+    conflicts: list[str]
 
     zoning: ZoningAssessment
     utilities: list[UtilityAssessment]
@@ -90,6 +101,15 @@ class BuildingSummary(BaseModel):
     structural_type: str
     lat: float
     lng: float
+
+
+class BuildingDetail(BuildingSummary):
+    geometry: dict
+    year_built: int
+    current_use: str
+    parking_spaces: int
+    has_elevator: bool
+    ceiling_height_ft: int
 
 
 class LayerInfo(BaseModel):

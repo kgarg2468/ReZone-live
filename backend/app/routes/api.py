@@ -9,6 +9,7 @@ from ..models import (
     FeasibilityRequest,
     FeasibilityResponse,
     BuildingSummary,
+    BuildingDetail,
     LayerInfo,
 )
 from ..services.geodata import GeoDataService
@@ -80,12 +81,35 @@ def get_building(building_id: str):
         raise HTTPException(status_code=404, detail="Building not found")
     feat, geom = result
     centroid = geom.centroid
-    return {
+    return BuildingDetail(
         **feat["properties"],
-        "lat": centroid.y,
-        "lng": centroid.x,
-        "geometry": feat["geometry"],
-    }
+        lat=centroid.y,
+        lng=centroid.x,
+        geometry=feat["geometry"],
+    )
+
+
+def _resolve_target_building(req: FeasibilityRequest) -> tuple[dict, object]:
+    assert _geo is not None
+    if req.building_id:
+        result = _geo.get_building_by_id(req.building_id)
+        if result is None:
+            raise HTTPException(status_code=404, detail="Building not found")
+        return result
+
+    # Coordinates path: use nearest building, constrained by request radius.
+    assert req.lat is not None and req.lng is not None
+    nearest = _geo.nearest_building(Point(req.lng, req.lat))
+    if nearest is None:
+        raise HTTPException(status_code=404, detail="No office buildings available")
+
+    feat, geom, dist_km = nearest
+    if dist_km > req.radius_km:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No building found within {req.radius_km} km of provided coordinates",
+        )
+    return feat, geom
 
 
 # ------------------------------------------------------------------
@@ -94,11 +118,7 @@ def feasibility_check(req: FeasibilityRequest) -> FeasibilityResponse:
     assert _geo is not None
     assert _engine is not None
 
-    result = _geo.get_building_by_id(req.building_id)
-    if result is None:
-        raise HTTPException(status_code=404, detail="Building not found")
-
-    feat, geom = result
+    feat, geom = _resolve_target_building(req)
     props = feat["properties"]
     center = geom.centroid
 
@@ -123,13 +143,28 @@ def feasibility_check(req: FeasibilityRequest) -> FeasibilityResponse:
     # Get recommendation
     rec = recommend(props, zoning, transit, structural, score)
 
+    conflicts: list[str] = []
+    if zoning.requires_rezoning:
+        conflicts.append("Zoning does not currently allow residential use; rezoning required.")
+    for utility in utilities:
+        if utility.score < 40:
+            conflicts.append(
+                f"{utility.utility_type.replace('_', ' ').title()} access is constrained "
+                f"(condition: {utility.condition}, capacity: {utility.capacity})."
+            )
+    if transit.score < 40:
+        conflicts.append("Transit accessibility is weak for residential conversion.")
+    if structural.conversion_difficulty == "hard":
+        conflicts.append("Structural characteristics indicate a high conversion difficulty.")
+
     return FeasibilityResponse(
-        building_id=req.building_id,
+        building_id=props.get("id", req.building_id or ""),
         building_name=props.get("name", "Unknown"),
         address=props.get("address", ""),
         score=score,
         tier=tier,
         tier_description=tier_desc,
+        conflicts=conflicts,
         zoning=zoning,
         utilities=utilities,
         transit=transit,

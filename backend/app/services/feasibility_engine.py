@@ -1,6 +1,7 @@
 """FeasibilityEngine — core analysis engine for office-to-housing conversion."""
 
 from __future__ import annotations
+from datetime import datetime
 
 from shapely.geometry import Point
 
@@ -180,7 +181,7 @@ class FeasibilityEngine:
         difficulty_score += type_scores.get(stype, 40)
 
         # Age penalty
-        age = 2025 - year
+        age = datetime.now().year - year
         if age < 30:
             difficulty_score += 10
         elif age < 50:

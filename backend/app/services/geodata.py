@@ -3,12 +3,10 @@
 from __future__ import annotations
 
 import json
-import os
 from pathlib import Path
 from typing import Optional
 
-from shapely.geometry import shape, Point, mapping
-from shapely.ops import nearest_points
+from shapely.geometry import shape, Point
 
 
 DATA_DIR = Path(__file__).resolve().parent.parent.parent.parent / "data" / "layers"
@@ -58,6 +56,21 @@ class GeoDataService:
             if props.get("id") == building_id:
                 return feat, geom
         return None
+
+    def nearest_building(self, point: Point) -> Optional[tuple[dict, object, float]]:
+        """Return the nearest office building to *point* with distance in km."""
+        best_feat: Optional[dict] = None
+        best_geom: Optional[object] = None
+        best_dist = float("inf")
+        for feat, geom in self._geometries.get("office_buildings", []):
+            dist_km = point.distance(geom) * 111.0  # rough km conversion
+            if dist_km < best_dist:
+                best_dist = dist_km
+                best_feat = feat
+                best_geom = geom
+        if best_feat is None or best_geom is None:
+            return None
+        return best_feat, best_geom, round(best_dist, 3)
 
     def get_all_buildings(self) -> list[dict]:
         results = []
